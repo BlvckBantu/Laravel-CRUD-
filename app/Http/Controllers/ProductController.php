@@ -8,15 +8,15 @@ use App\Models\Product;
 class ProductController extends Controller
 {
     public function index(){
-        return view('products.index');
+        $products = Product::all();
+        return view('products.index', ['products' => $products]);
     }
 
     public function create(){
         return view('products.create');
     }
 
-    public function store(Request $request)
-{
+    public function store(Request $request){
     // Validate the data
     $data = $request->validate([
         'Name' => 'required',
@@ -36,4 +36,22 @@ class ProductController extends Controller
     // Redirect to the product index page after creating the product
     return redirect(route('product.index'));
 }
+
+    public function edit(Product $product){
+        return view('products.edit', ['product' => $product]);
+}
+    
+    public function update(Product $product, Request $request){
+
+        
+        $data = $request->validate([
+            'Name' => 'required',
+            'Quantity' => 'required|numeric',
+            'Price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
+            'Description' => 'nullable'
+        ]);
+
+        $product->update($data);
+        return redirect(route('product.index'))->with('success', 'Product updated successfully');
+    }
 }

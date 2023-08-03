@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create Product</title>
+    <title>Edit Product</title>
     <style>
         body {
             background-color: #f5f5f5;
@@ -60,7 +60,7 @@
     </style>
 </head>
 <body>
-    <h1>Create a product</h1>
+    <h1>Edit a product</h1>
     <a href="{{ route('product.index') }}" class="btn-back">Back to products</a>
     <div>
         @if ($errors->any())
@@ -73,31 +73,31 @@
             
         @endif
     </div>
-    <form method="post" action="{{route('product.store')}}">
+    <form method="post" action="{{ route('product.update', ['product' => $product->id]) }}">
         @csrf 
-        @method('post')
+        @method('put')
         <div>
             <label for="Name">Product Name</label>
-            <input type ="text" name = "Name" placeholder="Product Name"/>
+            <input type ="text" name = "Name" placeholder="Product Name"  value="{{$product->Name}}"/>
         </div>
 
         <div>
             <label for="Quantity">Quantity</label>
-            <input type ="number" name = "Quantity" placeholder="Quantity"/>
+            <input type ="number" name = "Quantity" placeholder="Quantity" value="{{$product->Quantity}}"/>
         </div>
 
         <div>
             <label for="Price">Price</label>
-            <input type ="number" name = "Price" placeholder="Price"/>
+            <input type ="number" name = "Price" placeholder="Price" value="{{$product->Price}}"/>
         </div>
 
         <div>
             <label for="Description">Description</label>
-            <input type ="text" name = "Description" placeholder="Description"/>
+            <input type ="text" name = "Description" placeholder="Description" value="{{$product->Description}}"/>
         </div>
 
         <div>
-            <input type="submit" value="Save a product"/>
+            <input type="submit" value="Update"/>
         </div>
     </form>
 </body>
